@@ -13,10 +13,9 @@ const LandingPage = () => {
     setIsSubmitting(true);
     
     try {
-      const response = await axios.post('/api/subscribe', { email }, {
+      await axios.post('/api/subscribe', { email }, {
         headers: { 'Content-Type': 'application/json' }
       });
-      
       setStatus('success');
       setEmail('');
     } catch (error) {
