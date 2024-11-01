@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 export default function middleware(req: NextRequest) {
-  console.log('Request URL:', req.url);
-
-    return NextResponse.redirect(new URL('/', req.url));
+    return NextResponse.next();
 }
 
 export const config = {
@@ -14,3 +12,4 @@ export const config = {
     '/(api|trpc)(.*)',
   ],
 };
+
