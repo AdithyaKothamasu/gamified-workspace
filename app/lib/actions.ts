@@ -41,7 +41,7 @@ export async function subscribeToNewsletter(
       success: true,
     };
   } catch (error: unknown) {
-    if (error instanceof Error && 'code' in error && (error as any).code === 'P2002') {
+    if (error instanceof Error && 'code' in error && (error as Record<string, unknown>).code === 'P2002') {
       return {
         error: 'This email is already subscribed',
         success: false,

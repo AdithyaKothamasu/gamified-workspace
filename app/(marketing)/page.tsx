@@ -1,6 +1,7 @@
 "use client";
 import { FormEvent, useState } from 'react';
 import { ArrowRight, Users, Video, MessageSquare } from 'lucide-react';
+import { NextResponse } from 'next/server';
 
 const LandingPage = () => {
   const [email, setEmail] = useState('');
@@ -25,8 +26,12 @@ const LandingPage = () => {
         const data = await res.json();
         setStatus(data.error || 'error');
       }
-    } catch (err) {
-      setStatus('Something went wrong. Please try again.');
+    } catch (err: unknown) {
+        if (err instanceof Error) {
+            setStatus(err.message);
+          } else {
+            setStatus('Something went wrong. Please try again.');
+          }
     } finally {
       setIsSubmitting(false);
     }
