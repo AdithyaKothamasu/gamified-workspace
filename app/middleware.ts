@@ -4,12 +4,18 @@ import { clerkMiddleware } from "@clerk/nextjs/server";
 export default function middleware(req: NextRequest) {
   console.log('Request URL:', req.url);
 
-  // Example condition to avoid redirect loop
-  if (req.nextUrl.pathname.startsWith('/login')) {
+  // Avoid redirect loop by skipping middleware for specific paths
+  if (req.nextUrl.pathname.startsWith('/login') || req.nextUrl.pathname.startsWith('/api')) {
+    console.log('Skipping middleware for:', req.nextUrl.pathname);
     return NextResponse.next();
   }
 
-  return clerkMiddleware(req, {} as NextFetchEvent);
+  try {
+    return clerkMiddleware(req, {} as NextFetchEvent);
+  } catch (error) {
+    console.error('Error in clerkMiddleware:', error);
+    return NextResponse.redirect(new URL('/error', req.url));
+  }
 }
 
 export const config = {
