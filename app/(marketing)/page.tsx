@@ -1,7 +1,6 @@
 "use client";
 import { FormEvent, useState } from 'react';
 import { ArrowRight, Users, Video, MessageSquare } from 'lucide-react';
-import { NextResponse } from 'next/server';
 
 const LandingPage = () => {
   const [email, setEmail] = useState('');
