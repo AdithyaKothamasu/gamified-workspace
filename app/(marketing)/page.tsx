@@ -1,6 +1,7 @@
 "use client";
 import { FormEvent, useState } from 'react';
 import { ArrowRight, Users, Video, MessageSquare } from 'lucide-react';
+import axios from 'axios';
 
 const LandingPage = () => {
   const [email, setEmail] = useState('');
@@ -12,25 +13,19 @@ const LandingPage = () => {
     setIsSubmitting(true);
     
     try {
-      const res = await fetch('/api/subscribe', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email })
+      const response = await axios.post('/api/subscribe', { email }, {
+        headers: { 'Content-Type': 'application/json' }
       });
       
-      if (res.ok) {
-        setStatus('success');
-        setEmail('');
+      setStatus('success');
+      setEmail('');
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const errorMessage = error.response?.data?.error || 'Something went wrong. Please try again.';
+        setStatus(errorMessage);
       } else {
-        const data = await res.json();
-        setStatus(data.error || 'error');
+        setStatus('Something went wrong. Please try again.');
       }
-    } catch (err: unknown) {
-        if (err instanceof Error) {
-            setStatus(err.message);
-          } else {
-            setStatus('Something went wrong. Please try again.');
-          }
     } finally {
       setIsSubmitting(false);
     }
