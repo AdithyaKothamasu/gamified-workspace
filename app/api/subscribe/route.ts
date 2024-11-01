@@ -13,9 +13,9 @@ export async function POST(request: Request) {
     });
 
     return NextResponse.json({ success: true, subscriber });
-  } catch (error: any) {
+  } catch (error: unknown) {
     // Handle unique constraint violation
-    if (error.code === 'P2002') {
+    if (error instanceof Error && 'code' in error && (error as any).code === 'P2002') {
       return NextResponse.json(
         { error: 'This email is already subscribed' },
         { status: 400 }

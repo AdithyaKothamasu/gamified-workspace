@@ -1,5 +1,5 @@
 "use client";
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { ArrowRight, Users, Video, MessageSquare } from 'lucide-react';
 
 const LandingPage = () => {
@@ -7,7 +7,7 @@ const LandingPage = () => {
   const [status, setStatus] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubscribe = async (e: any) => {
+  const handleSubscribe = async (e: FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     
@@ -25,7 +25,7 @@ const LandingPage = () => {
         const data = await res.json();
         setStatus(data.error || 'error');
       }
-    } catch (error) {
+    } catch (err) {
       setStatus('Something went wrong. Please try again.');
     } finally {
       setIsSubmitting(false);

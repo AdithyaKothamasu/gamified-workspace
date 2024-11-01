@@ -40,8 +40,8 @@ export async function subscribeToNewsletter(
       error: null,
       success: true,
     };
-  } catch (error: any) {
-    if (error.code === 'P2002') {
+  } catch (error: unknown) {
+    if (error instanceof Error && 'code' in error && (error as any).code === 'P2002') {
       return {
         error: 'This email is already subscribed',
         success: false,
