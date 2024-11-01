@@ -1,6 +1,16 @@
+import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
 import { clerkMiddleware } from "@clerk/nextjs/server";
 
-export default clerkMiddleware();
+export default function middleware(req: NextRequest) {
+  console.log('Request URL:', req.url);
+
+  // Example condition to avoid redirect loop
+  if (req.nextUrl.pathname.startsWith('/login')) {
+    return NextResponse.next();
+  }
+
+  return clerkMiddleware(req, {} as NextFetchEvent);
+}
 
 export const config = {
   matcher: [
